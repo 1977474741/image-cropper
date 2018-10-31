@@ -7,7 +7,7 @@
 ## 初始准备
 #### 1.json文件中添加image-cropper
 	"usingComponents": {
-			"image-cropper": "../plugin/image-cropper"
+		"image-cropper": "../plugin/image-cropper"
 	},
 #### 2.wxml文件
 	<image-cropper id="cropper" min_scale="0.3" imgSrc="{{src}}" imgWidth="100%"></image-cropper>
