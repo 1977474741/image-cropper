@@ -1,11 +1,11 @@
-# image-cropper
+# wx-cropper
 ## 一款人性化的小程序图片裁剪插件，支持旋转
 ## 功能亮点
 ###### 1.支持旋转支持旋转支持旋转。
 ###### 2.点击中间窗口实时查看裁剪结果。
 ###### 3.使用非常简单，人性化。
 ## 初始准备
-#### 1.json文件中添加image-cropper
+#### 1.json文件中添加wx-cropper
 	"usingComponents": {
 		"wx-cropper": "../plugin/wx-cropper"
 	},
