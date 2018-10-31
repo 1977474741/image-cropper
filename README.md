@@ -7,12 +7,12 @@
 ## 初始准备
 #### 1.json文件中添加image-cropper
 	"usingComponents": {
-		"image-cropper": "../plugin/image-cropper"
+		"wx-cropper": "../plugin/wx-cropper"
 	},
 #### 2.wxml文件
-	<image-cropper id="cropper" min_scale="0.3" imgSrc="{{src}}" imgWidth="100%"></image-cropper>
+	<wx-cropper id="cropper" min_scale="0.3" imgSrc="{{src}}" imgWidth="100%"></wx-cropper>
 #### 3.wxss文件末尾
-	@import '../plugin/image-cropper.wxss'  
+	@import '../plugin/wx-cropper.wxss'  
 #### 4.获取image-cropper对象
 	this.cropper = this.selectComponent("#cropper");
 	this.setData({
