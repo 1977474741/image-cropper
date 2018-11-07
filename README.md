@@ -13,7 +13,7 @@
 	<wx-cropper id="cropper" min_scale="0.3" imgSrc="{{src}}" imgWidth="100%"></wx-cropper>
 #### 3.wxss文件末尾
 	@import '../plugin/wx-cropper.wxss'  
-#### 4.获取image-cropper对象
+#### 4.获取wx-cropper对象
 	this.cropper = this.selectComponent("#cropper");
 	this.setData({
 	  src:"https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg",
