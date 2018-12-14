@@ -1,4 +1,4 @@
-# wx-cropper
+# image-cropper
 ## 一款高性能的小程序图片裁剪插件，支持旋转、设置尺寸
 ## 功能亮点
 ###### 1.支持旋转支持旋转支持旋转。
@@ -8,16 +8,16 @@
 ###### 5.插件化，使用非常简单。
 ###### 6.点击中间窗口实时查看裁剪结果。
 ## 初始准备
-#### 1.json文件中添加wx-cropper
+#### 1.json文件中添加image-cropper
     "usingComponents": {
-       "wxCropper": "../wx-cropper/wx-cropper"
+       "image-cropper": "../image-cropper/image-cropper"
     }
 #### 2.wxml文件
-	<wxCropper id="wx-cropper" limit_move="true" disable_rotate="true" width="{{width}}" height="{{height}}" imgSrc="{{src}}"></wxCropper>
+	<image-cropper id="image-cropper" limit_move="true" disable_rotate="true" width="{{width}}" height="{{height}}" imgSrc="{{src}}"></image-cropper>
 #### 3.wxss文件末尾
-	@import '../plugin/wx-cropper.wxss'  
-#### 4.获取wx-cropper对象
-	this.cropper = this.selectComponent("#wx-cropper");
+	@import '../plugin/image-cropper.wxss'  
+#### 4.获取image-cropper对象
+	this.cropper = this.selectComponent("#image-cropper");
 	this.setData({
 	  src:"https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg",
 	});
