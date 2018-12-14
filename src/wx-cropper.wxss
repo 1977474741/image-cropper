@@ -1,4 +1,4 @@
-.image-cropper{
+.wx-cropper{
   position: fixed;
   top:0;
   left:0;
@@ -26,7 +26,7 @@
   background: rgba(0, 0, 0, 0.9)!important;
 }
 .bg_gray{
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.45);
   transition-duration: .5s;
   transition-property:background;
 }
@@ -49,13 +49,16 @@
 .content>.content_bottom{
   flex: auto;
 }
-.image-cropper .img{
+.wx-cropper .img{
+  z-index: 2;
+  top:0;
+  left:0;
   position: absolute;
   border:none;
   width:100%;
   backface-visibility: hidden;
 }
-.image-cropper-canvas{
+.wx-cropper-canvas{
   position: absolute;
   background: white;
   width:150px;
