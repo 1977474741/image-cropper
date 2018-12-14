@@ -13,7 +13,7 @@
        "wxCropper": "../wx-cropper/wx-cropper"
     }
 #### 2.wxml文件
-	<wxCropper id="wx-cropper" limit_move="true" disable_rotate="true" width="{{width}}" height="{{height}}" imgSrc="{{src}}">
+	<wxCropper id="wx-cropper" limit_move="true" disable_rotate="true" width="{{width}}" height="{{height}}" imgSrc="{{src}}"></wxCropper>
 #### 3.wxss文件末尾
 	@import '../plugin/wx-cropper.wxss'  
 #### 4.获取wx-cropper对象
