@@ -115,7 +115,7 @@ Component({
     }
   },
   data: {
-    el: 'wx-cropper', //暂时无用
+    el: 'image-cropper', //暂时无用
     info: wx.getSystemInfoSync(),
     init_imgWidth: 0, //图片设置尺寸,此值不变（记录最初设定的尺寸）
     init_imgHeight: 0, //图片设置尺寸,此值不变（记录最初设定的尺寸）
@@ -315,9 +315,11 @@ Component({
      * 设置剪裁框居中
      */
     setCutCenter() {
+      let cut_top = (this.data.info.windowHeight - this.data.height) * 0.5;
+      let cut_left = (this.data.info.windowWidth - this.data.width) * 0.5;
       this.setData({
-        cut_top: (this.data.info.windowHeight - this.data.height) * 0.5, //截取的框上边距
-        cut_left: (this.data.info.windowWidth - this.data.width) * 0.5, //截取的框左边距
+        cut_top: cut_top, //截取的框上边距
+        cut_left: cut_left, //截取的框左边距
       });
     },
     /**
@@ -597,10 +599,18 @@ Component({
         this.setData({
           width: this.data.info.windowWidth,
         });
+      } else if (this.data.width + this.data.cut_left > this.data.info.windowWidth){
+        this.setData({
+          cut_left: this.data.info.windowWidth - this.data.cut_left,
+        });
       };
       if (this.data.height > this.data.info.windowHeight) {
         this.setData({
           height: this.data.info.windowHeight,
+        });
+      } else if (this.data.height + this.data.cut_top > this.data.info.windowHeight){
+        this.setData({
+          cut_top: this.data.info.windowHeight - this.data.cut_top,
         });
       }
       //修改canvas尺寸,不需要重新添加图片

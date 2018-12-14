@@ -1,4 +1,4 @@
-.wx-cropper{
+.image-cropper{
   position: fixed;
   top:0;
   left:0;
@@ -49,7 +49,7 @@
 .content>.content_bottom{
   flex: auto;
 }
-.wx-cropper .img{
+.image-cropper .img{
   z-index: 2;
   top:0;
   left:0;
@@ -58,7 +58,7 @@
   width:100%;
   backface-visibility: hidden;
 }
-.wx-cropper-canvas{
+.image-cropper-canvas{
   position: absolute;
   background: white;
   width:150px;
