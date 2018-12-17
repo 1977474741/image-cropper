@@ -7,6 +7,9 @@
 ###### 4.自由模式和限制模式随意切换。
 ###### 5.插件化，使用非常简单。
 ###### 6.点击中间窗口实时查看裁剪结果。
+<h2 align = "center" style="">体验Demo</h2>
+<div align=center ><img width="200" height="200" src="https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg?v=0"/></div>
+
 ## 初始准备
 #### 1.json文件中添加image-cropper
     "usingComponents": {
@@ -85,6 +88,4 @@
 | setAngle      |  deg   	   |   无    |设置图片旋转角度|是|
 | setTransform  |{x,y,angle,scale,cutX,cutY}|   无    |图片在原有基础上的变化(scale受min_scale、max_scale影响)|根据需要传参|
 | imgReset      |无	          |   无    |重置图片的角度、缩放、位置(可以在onloadImage回调里使用)|否|
-<h2 align = "center" style="">体验Demo</h2>
-<div align=center ><img width="250" height="250" src="https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg?v=0"/></div>
-<h3 align = "center" style="">如果有什么建议qq1977474741交流</h3>
+<h3 align = "center" style="">如果有什么建议加qq1977474741交流</h3>
