@@ -13,7 +13,7 @@
        "image-cropper": "../image-cropper/image-cropper"
     }
 #### 2.wxml文件
-	<image-cropper id="image-cropper" limit_move="true" disable_rotate="true" width="{{width}}" height="{{height}}" imgSrc="{{src}}"></image-cropper>
+	<image-cropper id="image-cropper" limit_move="true" disable_rotate="true" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut"></image-cropper>
 #### 3.wxss文件末尾
 	@import '../plugin/image-cropper.wxss'  
 #### 4.获取image-cropper对象
@@ -21,19 +21,6 @@
 	this.setData({
 	  src:"https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg",
 	});
-	//图片加载完成回调
-	this.cropper.onloadImage((imgObj) => {
-	   //每次上传图片时重置角度、缩放、位置
-	   this.cropper.imgReset();
-	})
-	//点击裁剪框回调
-	this.cropper.onClickCut((url)=>{
-	  //图片预览
-	  wx.previewImage({
-	    current: url, // 当前显示图片的http链接
-	    urls: [url] // 需要预览的图片http链接列表
-	  })
-	}) 
 ## 参数说明
 | 属性           | 类型   | 缺省值  | 取值  | 描述  | 必填 |
 | ------------- |:------:|:------:|:-----:|:-----:|:-----:|
@@ -53,7 +40,9 @@
 | scale 	| Number | 1	   |无限制|图片的缩放比|否|
 | angle 	| Number | 0	   |无限制|图片的旋转角度|否|
 | min_scale 	| Number | 0.5	   |无限制|图片的最小缩放比|否|
-| max_scale 	| Number | 2	   |无限制|图片的最大缩放比|否|
+| bindload 	| Function | null	   |函数名称|cropper初始化完成|否|
+| bindimageload | Function | null  |函数名称|图片加载完成,返回值Object{width,height,path,type}|否|
+| bindtapcut 	| Function | null  |函数名称|点击中间裁剪框,返回值Object{src,width,height}|否|
 ## 函数说明
 | 函数名         | 参数   	       | 返回值  |描述|参数必填|
 | ------------- |:------:	   |:------:|:------:|:------:|
@@ -67,11 +56,5 @@
 | setAngle      |  deg   	   |   无    |设置图片旋转角度|是|
 | setTransform  |{x,y,angle,scale,cutX,cutY}|   无    |图片在原有基础上的变化(scale受min_scale、max_scale影响)|根据需要传参|
 | imgReset      |无	          |   无    |重置图片的角度、缩放、位置(可以在onloadImage回调里使用)|否|
-## 事件说明
-| 事件名         | 参数   	       | 返回值  |  描述  | 参数必填 |
-| ------------- |:------:	   |:------:|:------:|:------:|
-| onload        |Function(回调函数) |cropper |初始化完成|是|
-| onloadImage   |Function(回调函数) |Object{width,height,path,type(图片格式)} |图片加载完成|是|
-| onClickCut    |Function(回调函数) |src(实时裁剪的图片地址) |用户点击中间裁剪框(图片尺寸 = 图片宽高 * export_scale)|是|
 <h2 align = "center" style="">体验Demo</h2>
 <div align=center ><img width="250" height="250" src="https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg?v=0"/></div>
