@@ -9,7 +9,7 @@
         </view>
         <view class='content_bottom bg_gray {{flag_bright?"":"bg_black"}}'></view>
       </view>
-      <image bindtouchstart="_start" bindtouchmove="_move" bindtouchend="_end" style="width:{{imgWidth ? imgWidth + 'px' : 'auto'}};height:{{imgHeight ? imgHeight + 'px' : 'auto'}};transform:translate3d({{imgLeft-imgWidth/2}}px,{{imgTop-imgHeight/2}}px,0) scale({{scale}}) rotate({{angle}}deg);" class='img' src='{{imgSrc}}'></image>
+      <image bindload="imageLoad" bindtouchstart="_start" bindtouchmove="_move" bindtouchend="_end" style="width:{{imgWidth ? imgWidth + 'px' : 'auto'}};height:{{imgHeight ? imgHeight + 'px' : 'auto'}};transform:translate3d({{imgLeft-imgWidth/2}}px,{{imgTop-imgHeight/2}}px,0) scale({{scale}}) rotate({{angle}}deg);" class='img' src='{{imgSrc}}'></image>
       <canvas canvas-id='image-cropper' disable-scroll="true" style="width:{{width}}px;height:{{height}}px;left:{{canvas_left}}px;top:{{canvas_top}}px" class='image-cropper-canvas'></canvas>
     </view>
   </view>
