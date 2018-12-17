@@ -188,27 +188,11 @@ Component({
     //检查canvas是否在范围内
     this._canvasDetectionPosition();
     //初始化完成
-    this._onload && this._onload(this);
+    this.triggerEvent('load', {
+      cropper: this
+    });
   },
   methods: {
-    /**
-     * 初始化完成回调
-     */
-    onload(callback) {
-      this._onload = callback;
-    },
-    /**
-     * 图片加载完成回调
-     */
-    onloadImage(callback) {
-      this._onloadImage = callback;
-    },
-    /**
-     * 点击中间剪裁框的回调
-     */
-    onClickCut(callback) {
-      this._onClickCut = callback;
-    },
     /**
      * 上传图片
      */
@@ -388,7 +372,6 @@ Component({
             });
           }
           this._draw();
-          this._onloadImage && this._onloadImage(res);//图片加载完成回调
         },
         fail: (err) => {
           this.setData({
@@ -396,6 +379,9 @@ Component({
           });
         }
       });
+    },
+    imageLoad(){
+      this.triggerEvent('imageload', this.data.imageObject);
     },
     /**
      * 设置图片放大缩小
@@ -740,7 +726,11 @@ Component({
           quality: this.data.quality,
           canvasId: this.data.el,
           success: (res) => {
-            this._onClickCut && this._onClickCut(res.tempFilePath);
+            this.triggerEvent('tapcut', {
+              url: res.tempFilePath,
+              width: this.data.width * this.data.export_scale,
+              height: this.data.height * this.data.export_scale
+            });
           }
         }, this)
       }
@@ -782,9 +772,6 @@ Component({
     }
   },
   _preventTouchMove() {
-
-  },
-  ready(options) {
 
   }
 })
