@@ -87,3 +87,4 @@
 | imgReset      |无	          |   无    |重置图片的角度、缩放、位置(可以在onloadImage回调里使用)|否|
 <h2 align = "center" style="">体验Demo</h2>
 <div align=center ><img width="250" height="250" src="https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg?v=0"/></div>
+<h3 align = "center" style="">如果有什么建议qq1977474741交流</h3>
