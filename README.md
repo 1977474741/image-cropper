@@ -1,7 +1,7 @@
 # image-cropper
 ## 一款高性能的小程序图片裁剪插件，支持旋转、设置尺寸
 ## 功能亮点
-###### 1.支持旋转支持旋转支持旋转。
+###### 1.功能强大。
 ###### 2.性能超高超流畅，大图毫无卡顿感。
 ###### 3.可以设置导出图片尺寸。
 ###### 4.自由模式和限制模式随意切换。
@@ -61,6 +61,10 @@
 | limit_move	| Boolean| false    |true/false|是否限制图片移动范围(裁剪框始终在图片内)(为true时建议同时设置disable_rotate为true)|否|
 | width 	| Number | 200      |超过屏幕宽度自动转为屏幕宽度|裁剪框宽度|否|
 | height        | Number | 200      |超过屏幕高度自动转为屏幕高度|裁剪框高度|否|
+| max_width 	| Number | 300      |裁剪框最大宽度|裁剪框最大宽度|否|
+| max_height        | Number | 300      |裁剪框最大高度|裁剪框最大高度|否|
+| disable_width 	| Boolean | false      |锁定裁剪框宽度|锁定裁剪框宽度|否|
+| disable_height    | Boolean | false      |锁定裁剪框高度|锁定裁剪框高度|否|
 | export_scale  | Number | 3        |无限制|导出图片的大小比例(相对于裁剪框尺寸),决定了裁剪图片的尺寸|否|
 | quality 	| Number | 1        |0-1|生成的图片质量|否|
 | cut_top 	| Number | 居中     |始终在屏幕内 |裁剪框上边距|否|
