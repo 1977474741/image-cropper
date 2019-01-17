@@ -1,4 +1,3 @@
-let TIME_BG,TIME_CUT_CENTER;//背景变暗延时函数
 Component({
   properties: {
     /**
@@ -93,14 +92,14 @@ Component({
     /**
      * 图片宽度
      */
-    'imgWidth': {
+    'img_width': {
       type: null,
       value: null
     },
     /**
      * 图片高度
      */
-    'imgHeight': {
+    'img_height': {
       type: null,
       value: null
     },
@@ -152,21 +151,23 @@ Component({
     info: wx.getSystemInfoSync(),
     INIT_IMGWIDTH: 0, //图片设置尺寸,此值不变（记录最初设定的尺寸）
     INIT_IMGHEIGHT: 0, //图片设置尺寸,此值不变（记录最初设定的尺寸）
-    TOUCH_IMG_RELATIVE: [{
+    TIME_BG: null,//背景变暗延时函数
+    TIME_CUT_CENTER:null,
+    _touch_img_relative: [{
       x: 0,
       y: 0
     }], //鼠标和图片中心的相对位置
-    FLAG_CUT_TOUCH:false,//是否是拖动裁剪框
-    FIRSH_HYPOTENUSE: 0, //双指触摸时斜边长度
-    FLAG_IMG_ENDTOUCH: false, //是否结束触摸
-    FLAG_BRIGHT: true, //背景是否亮
-    CANVAS_OVERFLOW:true,//canvas缩略图是否在屏幕外面
-    CANVAS_WIDTH:200,
-    CANVAS_HEIGHT:200,
+    _flag_cut_touch:false,//是否是拖动裁剪框
+    _hypotenuse_length: 0, //双指触摸时斜边长度
+    _flag_img_endtouch: false, //是否结束触摸
+    _flag_bright: true, //背景是否亮
+    _canvas_overflow:true,//canvas缩略图是否在屏幕外面
+    _canvas_width:200,
+    _canvas_height:200,
     origin_x: 0.5, //图片旋转中心
     origin_y: 0.5, //图片旋转中心
-    imgTop: wx.getSystemInfoSync().windowHeight / 2, //图片上边距
-    imgLeft: wx.getSystemInfoSync().windowWidth / 2, //图片左边距
+    _img_top: wx.getSystemInfoSync().windowHeight / 2, //图片上边距
+    _img_left: wx.getSystemInfoSync().windowWidth / 2, //图片左边距
     watch: {
       //监听截取框宽高变化
       width(value, that) {
@@ -191,7 +192,7 @@ Component({
         if (value) {
           that.setData({angle:0});
           that._imgMarginDetectionScale();
-          !that.data.CANVAS_OVERFLOW && that._draw();
+          !that.data._canvas_overflow && that._draw();
         }
       },
       canvas_top(value, that){
@@ -207,14 +208,14 @@ Component({
         that._cutDetectionPosition();
         if (that.data.limit_move) {
           that._imgMarginDetectionScale();
-          !that.data.CANVAS_OVERFLOW && that._draw();
+          !that.data._canvas_overflow && that._draw();
         }
       },
       cut_left(value, that) {
         that._cutDetectionPosition();
         if (that.data.limit_move) {
           that._imgMarginDetectionScale();
-          !that.data.CANVAS_OVERFLOW && that._draw();
+          !that.data._canvas_overflow && that._draw();
         }
       }
     }
@@ -222,11 +223,11 @@ Component({
   attached() {
     //启用数据监听
     this._watcher();
-    this.data.INIT_IMGWIDTH = this.data.imgWidth;
-    this.data.INIT_IMGHEIGHT = this.data.imgHeight;
+    this.data.INIT_IMGWIDTH = this.data.img_width;
+    this.data.INIT_IMGHEIGHT = this.data.img_height;
     this.setData({
-      CANVAS_HEIGHT: this.data.height,
-      CANVAS_WIDTH: this.data.width,
+      _canvas_height: this.data.height,
+      _canvas_width: this.data.width,
     });
     this._initCanvas();
     this.data.imgSrc ? this.data.imgSrc = this.data.imgSrc:'';
@@ -315,17 +316,17 @@ Component({
         });
         this.data.watch.cut_top(null, this);
       }
-      this.data.imgTop = transform.y ? this.data.imgTop + transform.y : this.data.imgTop;
-      this.data.imgLeft = transform.x ? this.data.imgLeft + transform.x : this.data.imgLeft;
+      this.data._img_top = transform.y ? this.data._img_top + transform.y : this.data._img_top;
+      this.data._img_left = transform.x ? this.data._img_left + transform.x : this.data._img_left;
       //图像边缘检测,防止截取到空白
       this._imgMarginDetectionScale();
       this._moveDuring();
       this.setData({
         scale: this.data.scale,
-        imgTop: this.data.imgTop,
-        imgLeft: this.data.imgLeft,
+        _img_top: this.data._img_top,
+        _img_left: this.data._img_left,
       });
-      !this.data.CANVAS_OVERFLOW && this._draw();
+      !this.data._canvas_overflow && this._draw();
       this._moveStop();//结束操作
     },
     /**
@@ -354,9 +355,9 @@ Component({
       let cut_top = (this.data.info.windowHeight - this.data.height) * 0.5;
       let cut_left = (this.data.info.windowWidth - this.data.width) * 0.5;
       this.setData({
-        imgTop: this.data.imgTop - this.data.cut_top + (this.data.info.windowHeight - this.data.height) * 0.5,
+        _img_top: this.data._img_top - this.data.cut_top + (this.data.info.windowHeight - this.data.height) * 0.5,
         cut_top: cut_top, //截取的框上边距
-        imgLeft: this.data.imgLeft - this.data.cut_left + (this.data.info.windowWidth - this.data.width) * 0.5,
+        _img_left: this.data._img_left - this.data.cut_left + (this.data.info.windowWidth - this.data.width) * 0.5,
         cut_left: cut_left, //截取的框左边距
       });
     },
@@ -391,8 +392,8 @@ Component({
       this.setData({
         scale: 1,
         angle: 0,
-        imgTop: wx.getSystemInfoSync().windowHeight / 2,
-        imgLeft: wx.getSystemInfoSync().windowWidth / 2,
+        _img_top: wx.getSystemInfoSync().windowHeight / 2,
+        _img_left: wx.getSystemInfoSync().windowWidth / 2,
       })
     },
     /**
@@ -435,7 +436,6 @@ Component({
       });
     },
     imageLoad(e){
-      console.log(e,this.data.imageObject);
       setTimeout(()=>{
       this.triggerEvent('imageload', this.data.imageObject);
 
@@ -449,7 +449,7 @@ Component({
       this.setData({
         scale: scale.toFixed(3)
       });
-      !this.data.CANVAS_OVERFLOW && this._draw();
+      !this.data._canvas_overflow && this._draw();
     },
     /**
      * 设置图片旋转角度
@@ -459,7 +459,7 @@ Component({
       this.setData({
         angle: angle.toFixed(2)
       });
-      !this.data.CANVAS_OVERFLOW && this._draw();
+      !this.data._canvas_overflow && this._draw();
     },
     _initCanvas() {
       //初始化canvas
@@ -474,11 +474,11 @@ Component({
       //处理宽高特殊单位 %>px
       if (this.data.INIT_IMGWIDTH && this.data.INIT_IMGWIDTH.indexOf("%") != -1) {
         let width = this.data.INIT_IMGWIDTH.replace("%", "");
-        this.data.INIT_IMGWIDTH = this.data.imgWidth = this.data.info.windowWidth / 100 * width;
+        this.data.INIT_IMGWIDTH = this.data.img_width = this.data.info.windowWidth / 100 * width;
       }
       if (this.data.INIT_IMGHEIGHT && this.data.INIT_IMGHEIGHT.indexOf("%") != -1) {
-        let height = this.data.imgHeight.replace("%", "");
-        this.data.INIT_IMGHEIGHT = this.data.imgHeight = this.data.info.windowHeight / 100 * height;
+        let height = this.data.img_height.replace("%", "");
+        this.data.INIT_IMGHEIGHT = this.data.img_height = this.data.info.windowHeight / 100 * height;
       }
     },
     /**
@@ -534,16 +534,16 @@ Component({
      */
     _canvasDetectionPosition(){
       if(this.data.canvas_top == null && this.data.canvas_left == null) {
-        this.data.CANVAS_OVERFLOW = false;
+        this.data._canvas_overflow = false;
         this.setData({
           canvas_top: -5000,
           canvas_left: -5000
         });
       }else if(this.data.canvas_top != null && this.data.canvas_left != null) {
         if (this.data.canvas_top < - this.data.height || this.data.canvas_top > this.data.info.windowHeight) {
-          this.data.CANVAS_OVERFLOW = true;
+          this.data._canvas_overflow = true;
         } else {
-          this.data.CANVAS_OVERFLOW = false;
+          this.data._canvas_overflow = false;
         }
       }else if(this.data.canvas_top != null && this.data.canvas_left == null) {
         this.setData({
@@ -554,9 +554,9 @@ Component({
           canvas_top: 0
         });
         if (this.data.canvas_left < -this.data.width || this.data.canvas_left > this.data.info.windowWidth) {
-          this.data.CANVAS_OVERFLOW = true;
+          this.data._canvas_overflow = true;
         } else {
-          this.data.CANVAS_OVERFLOW = false;
+          this.data._canvas_overflow = false;
         }
       }
     },
@@ -565,17 +565,17 @@ Component({
      */
     _imgMarginDetectionPosition() {
       if (!this.data.limit_move)return;
-      let left = this.data.imgLeft;
-      let top = this.data.imgTop;
-      left = this.data.cut_left + this.data.imgWidth * this.data.scale / 2 >= left ? left : this.data.cut_left + this.data.imgWidth * this.data.scale / 2;
-      left = this.data.cut_left + this.data.width - this.data.imgWidth * this.data.scale / 2 <= left ? left : this.data.cut_left + this.data.width - this.data.imgWidth * this.data.scale / 2;
-      top = this.data.cut_top + this.data.imgHeight * this.data.scale / 2 >= top ? top : this.data.cut_top + this.data.imgHeight * this.data.scale / 2;
-      top = this.data.cut_top + this.data.height - this.data.imgHeight * this.data.scale / 2 <= top ? top : this.data.cut_top + this.data.height - this.data.imgHeight * this.data.scale / 2;
-      this.data.imgLeft = left;
-      this.data.imgTop = top;
+      let left = this.data._img_left;
+      let top = this.data._img_top;
+      left = this.data.cut_left + this.data.img_width * this.data.scale / 2 >= left ? left : this.data.cut_left + this.data.img_width * this.data.scale / 2;
+      left = this.data.cut_left + this.data.width - this.data.img_width * this.data.scale / 2 <= left ? left : this.data.cut_left + this.data.width - this.data.img_width * this.data.scale / 2;
+      top = this.data.cut_top + this.data.img_height * this.data.scale / 2 >= top ? top : this.data.cut_top + this.data.img_height * this.data.scale / 2;
+      top = this.data.cut_top + this.data.height - this.data.img_height * this.data.scale / 2 <= top ? top : this.data.cut_top + this.data.height - this.data.img_height * this.data.scale / 2;
+      this.data._img_left = left;
+      this.data._img_top = top;
       this.setData({
-        imgLeft: this.data.imgLeft,
-        imgTop: this.data.imgTop,
+        _img_left: this.data._img_left,
+        _img_top: this.data._img_top,
       });
     },
     /**
@@ -584,10 +584,10 @@ Component({
     _imgMarginDetectionScale(){
       if (!this.data.limit_move) return;
       let scale = this.data.scale;
-      if (this.data.imgWidth * scale < this.data.width){
-        this.data.scale = this.data.width / this.data.imgWidth;
-      } else if (this.data.imgHeight * scale < this.data.height){
-        this.data.scale = this.data.height / this.data.imgHeight;
+      if (this.data.img_width * scale < this.data.width){
+        this.data.scale = this.data.width / this.data.img_width;
+      } else if (this.data.img_height * scale < this.data.height){
+        this.data.scale = this.data.height / this.data.img_height;
       }
       //改变位置
       this._imgMarginDetectionPosition();
@@ -599,27 +599,27 @@ Component({
      * 计算图片尺寸
      */
     _imgComputeSize() {
-      let imgWidth = this.data.imgWidth,
-          imgHeight = this.data.imgHeight;
+      let img_width = this.data.img_width,
+          img_height = this.data.img_height;
       if (!this.data.INIT_IMGHEIGHT && !this.data.INIT_IMGWIDTH) {
         //默认按图片最小边 = 对应裁剪框尺寸
-        imgWidth = this.data.imageObject.width;
-        imgHeight = this.data.imageObject.height;
-        if (imgWidth / imgHeight > this.data.width / this.data.height){
-          imgHeight = this.data.height;
-          imgWidth = this.data.imageObject.width / this.data.imageObject.height * imgHeight;
+        img_width = this.data.imageObject.width;
+        img_height = this.data.imageObject.height;
+        if (img_width / img_height > this.data.width / this.data.height){
+          img_height = this.data.height;
+          img_width = this.data.imageObject.width / this.data.imageObject.height * img_height;
         }else{
-          imgWidth = this.data.width;
-          imgHeight = this.data.imageObject.height / this.data.imageObject.width * imgWidth;
+          img_width = this.data.width;
+          img_height = this.data.imageObject.height / this.data.imageObject.width * img_width;
         }
       } else if (this.data.INIT_IMGHEIGHT && !this.data.INIT_IMGWIDTH) {
-        imgWidth = this.data.imageObject.width / this.data.imageObject.height * this.data.INIT_IMGHEIGHT;
+        img_width = this.data.imageObject.width / this.data.imageObject.height * this.data.INIT_IMGHEIGHT;
       } else if (!this.data.INIT_IMGHEIGHT && this.data.INIT_IMGWIDTH) {
-        imgHeight = this.data.imageObject.height / this.data.imageObject.width * this.data.INIT_IMGWIDTH;
+        img_height = this.data.imageObject.height / this.data.imageObject.width * this.data.INIT_IMGWIDTH;
       }
       this.setData({
-        imgWidth: imgWidth,
-        imgHeight: imgHeight
+        img_width: img_width,
+        img_height: img_height
       });
     },
     //改变截取框大小
@@ -642,53 +642,53 @@ Component({
           cut_top: this.data.info.windowHeight - this.data.cut_top,
         });
       }
-      !this.data.CANVAS_OVERFLOW && this._draw();
+      !this.data._canvas_overflow && this._draw();
     },
     //开始触摸
     _start(event) {
-      this.data.FLAG_IMG_ENDTOUCH = false;
+      this.data._flag_img_endtouch = false;
       if (event.touches.length == 1) {
         //单指拖动
-        this.data.TOUCH_IMG_RELATIVE[0] = {
-          x: event.touches[0].clientX - this.data.imgLeft,
-          y: event.touches[0].clientY - this.data.imgTop
+        this.data._touch_img_relative[0] = {
+          x: event.touches[0].clientX - this.data._img_left,
+          y: event.touches[0].clientY - this.data._img_top
         }
       } else {
         //双指放大
         let width = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
         let height = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
-        this.data.TOUCH_IMG_RELATIVE = [{
-          x: event.touches[0].clientX - this.data.imgLeft,
-          y: event.touches[0].clientY - this.data.imgTop
+        this.data._touch_img_relative = [{
+          x: event.touches[0].clientX - this.data._img_left,
+          y: event.touches[0].clientY - this.data._img_top
         }, {
-            x: event.touches[1].clientX - this.data.imgLeft,
-            y: event.touches[1].clientY - this.data.imgTop
+            x: event.touches[1].clientX - this.data._img_left,
+            y: event.touches[1].clientY - this.data._img_top
         }];
-        this.data.FIRSH_HYPOTENUSE = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
+        this.data._hypotenuse_length = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
       }
-      !this.data.CANVAS_OVERFLOW && this._draw();
+      !this.data._canvas_overflow && this._draw();
     },
     _move(event) {
-      if (this.data.FLAG_IMG_ENDTOUCH) return;
+      if (this.data._flag_img_endtouch) return;
       this._moveDuring();
       if (event.touches.length == 1) {
         //单指拖动
-        let left = event.touches[0].clientX - this.data.TOUCH_IMG_RELATIVE[0].x,
-            top = event.touches[0].clientY - this.data.TOUCH_IMG_RELATIVE[0].y;
+        let left = event.touches[0].clientX - this.data._touch_img_relative[0].x,
+            top = event.touches[0].clientY - this.data._touch_img_relative[0].y;
         //图像边缘检测,防止截取到空白
-        this.data.imgLeft = left;
-        this.data.imgTop = top;
+        this.data._img_left = left;
+        this.data._img_top = top;
         this._imgMarginDetectionPosition();
         this.setData({
-          imgLeft: this.data.imgLeft,
-          imgTop: this.data.imgTop
+          _img_left: this.data._img_left,
+          _img_top: this.data._img_top
         });
       } else {
         //双指放大
         let width = Math.abs(event.touches[0].clientX - event.touches[1].clientX),
             height = Math.abs(event.touches[0].clientY - event.touches[1].clientY),
             hypotenuse = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)),
-            scale = this.data.scale * (hypotenuse / this.data.FIRSH_HYPOTENUSE),
+            scale = this.data.scale * (hypotenuse / this.data._hypotenuse_length),
             current_deg = 0;
         scale = scale <= this.data.min_scale ? this.data.min_scale : scale;
         scale = scale >= this.data.max_scale ? this.data.max_scale : scale;
@@ -696,18 +696,18 @@ Component({
         this.data.scale = scale;
         this._imgMarginDetectionScale();
         //双指旋转(如果没禁用旋转)
-        let TOUCH_IMG_RELATIVE = [{
-          x: event.touches[0].clientX - this.data.imgLeft,
-          y: event.touches[0].clientY - this.data.imgTop
+        let _touch_img_relative = [{
+          x: event.touches[0].clientX - this.data._img_left,
+          y: event.touches[0].clientY - this.data._img_top
         }, {
-            x: event.touches[1].clientX - this.data.imgLeft,
-            y: event.touches[1].clientY - this.data.imgTop 
+            x: event.touches[1].clientX - this.data._img_left,
+            y: event.touches[1].clientY - this.data._img_top 
         }];
         if (!this.data.disable_rotate){
-          let first_atan = 180 / Math.PI * Math.atan2(TOUCH_IMG_RELATIVE[0].y, TOUCH_IMG_RELATIVE[0].x);
-          let first_atan_old = 180 / Math.PI * Math.atan2(this.data.TOUCH_IMG_RELATIVE[0].y, this.data.TOUCH_IMG_RELATIVE[0].x);
-          let second_atan = 180 / Math.PI * Math.atan2(TOUCH_IMG_RELATIVE[1].y, TOUCH_IMG_RELATIVE[1].x);
-          let second_atan_old = 180 / Math.PI * Math.atan2(this.data.TOUCH_IMG_RELATIVE[1].y, this.data.TOUCH_IMG_RELATIVE[1].x);
+          let first_atan = 180 / Math.PI * Math.atan2(_touch_img_relative[0].y, _touch_img_relative[0].x);
+          let first_atan_old = 180 / Math.PI * Math.atan2(this.data._touch_img_relative[0].y, this.data._touch_img_relative[0].x);
+          let second_atan = 180 / Math.PI * Math.atan2(_touch_img_relative[1].y, _touch_img_relative[1].x);
+          let second_atan_old = 180 / Math.PI * Math.atan2(this.data._touch_img_relative[1].y, this.data._touch_img_relative[1].x);
           //当前旋转的角度
           let first_deg = first_atan - first_atan_old,
               second_deg = second_atan - second_atan_old;
@@ -717,19 +717,19 @@ Component({
             current_deg = second_deg;
           }
         }
-        this.data.TOUCH_IMG_RELATIVE = TOUCH_IMG_RELATIVE;
-        this.data.FIRSH_HYPOTENUSE = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
+        this.data._touch_img_relative = _touch_img_relative;
+        this.data._hypotenuse_length = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
         //更新视图
         this.setData({
           angle: this.data.angle + current_deg,
           scale: this.data.scale
         });
       }
-      !this.data.CANVAS_OVERFLOW && this._draw();
+      !this.data._canvas_overflow && this._draw();
     },
     //结束操作
     _end(event) {
-      this.data.FLAG_IMG_ENDTOUCH = true;
+      this.data._flag_img_endtouch = true;
       this._moveStop();
     },
     //点击中间剪裁框处理
@@ -769,28 +769,28 @@ Component({
       if (this.data.ctx.width != this.data.width || this.data.ctx.height != this.data.height){
         //优化拖动裁剪框，所以必须把宽高设置放在离用户触发渲染最近的地方
         this.setData({
-          CANVAS_HEIGHT: this.data.height,
-          CANVAS_WIDTH: this.data.width,
+          _canvas_height: this.data.height,
+          _canvas_width: this.data.width,
         });
       }
       setTimeout(()=>{
         //图片实际大小
-        let imgWidth = this.data.imgWidth * this.data.scale;
-        let imgHeight = this.data.imgHeight * this.data.scale;
+        let img_width = this.data.img_width * this.data.scale;
+        let img_height = this.data.img_height * this.data.scale;
         //canvas和图片的相对距离
-        var xpos = this.data.imgLeft - this.data.cut_left;
-        var ypos = this.data.imgTop - this.data.cut_top;
+        var xpos = this.data._img_left - this.data.cut_left;
+        var ypos = this.data._img_top - this.data.cut_top;
         //旋转画布
         this.data.ctx.translate(xpos, ypos);
         this.data.ctx.rotate(this.data.angle * Math.PI / 180);
-        this.data.ctx.drawImage(this.data.imgSrc, -imgWidth / 2, -imgHeight / 2, imgWidth, imgHeight);
+        this.data.ctx.drawImage(this.data.imgSrc, -img_width / 2, -img_height / 2, img_width, img_height);
         this.data.ctx.draw();
         callback&&callback();
       },50)
     },
     //裁剪框处理
     _cutTouchMove(e) {
-      if (this.data.FLAG_CUT_TOUCH) {
+      if (this.data._flag_cut_touch) {
         let width = this.data.width,
           height = this.data.height,
           cut_top = this.data.cut_top,
@@ -851,7 +851,6 @@ Component({
       }
     },
     _cutTouchStart(e) {
-      console.log(2);
       let currentX = e.touches[0].clientX;
       let currentY = e.touches[0].clientY;
       let cutbox_top4 = this.data.cut_top + this.data.height - 20;
@@ -875,8 +874,8 @@ Component({
       let cutbox_right1 = this.data.cut_left + 30;
       if (currentX > cutbox_left4 && currentX < cutbox_right4 && currentY > cutbox_top4 && currentY < cutbox_bottom4) {
         this._moveDuring();
-        this.data.FLAG_CUT_TOUCH = true;
-        this.data.FLAG_IMG_ENDTOUCH = true;
+        this.data._flag_cut_touch = true;
+        this.data._flag_img_endtouch = true;
         this.data.CUT_START = {
           width: this.data.width,
           height: this.data.height,
@@ -886,8 +885,8 @@ Component({
         }
       } else if (currentX > cutbox_left3 && currentX < cutbox_right3 && currentY > cutbox_top3 && currentY < cutbox_bottom3) {
         this._moveDuring();
-        this.data.FLAG_CUT_TOUCH = true;
-        this.data.FLAG_IMG_ENDTOUCH = true;
+        this.data._flag_cut_touch = true;
+        this.data._flag_img_endtouch = true;
         this.data.CUT_START = {
           width: this.data.width,
           height: this.data.height,
@@ -899,8 +898,8 @@ Component({
         }
       } else if (currentX > cutbox_left2 && currentX < cutbox_right2 && currentY > cutbox_top2 && currentY < cutbox_bottom2) {
         this._moveDuring();
-        this.data.FLAG_CUT_TOUCH = true;
-        this.data.FLAG_IMG_ENDTOUCH = true;
+        this.data._flag_cut_touch = true;
+        this.data._flag_img_endtouch = true;
         this.data.CUT_START = {
           width: this.data.width,
           height: this.data.height,
@@ -912,8 +911,8 @@ Component({
         }
       } else if (currentX > cutbox_left1 && currentX < cutbox_right1 && currentY > cutbox_top1 && currentY < cutbox_bottom1) {
         this._moveDuring();
-        this.data.FLAG_CUT_TOUCH = true;
-        this.data.FLAG_IMG_ENDTOUCH = true;
+        this.data._flag_cut_touch = true;
+        this.data._flag_img_endtouch = true;
         this.data.CUT_START = {
           width: this.data.width,
           height: this.data.height,
@@ -927,32 +926,32 @@ Component({
     },
     _cutTouchEnd(e) {
       this._moveStop();
-      this.data.FLAG_CUT_TOUCH = false;
+      this.data._flag_cut_touch = false;
     },
     //停止移动时需要做的操作
     _moveStop() {
       //清空之前的自动居中延迟函数并添加最新的
-      clearTimeout(TIME_CUT_CENTER);
-      TIME_CUT_CENTER = setTimeout(() => {
+      clearTimeout(this.data.TIME_CUT_CENTER);
+      this.data.TIME_CUT_CENTER = setTimeout(() => {
         //动画启动
-        if (!this.data.CUT_ANIMATION) {
+        if (!this.data._cut_animation) {
           this.setData({
-            CUT_ANIMATION: true
+            _cut_animation: true
           });
           this.setCutCenter();
-          TIME_CUT_CENTER = setTimeout(() => {
+          this.data.TIME_CUT_CENTER = setTimeout(() => {
             this.setData({
-              CUT_ANIMATION: false
+              _cut_animation: false
             });
           }, 400)
         }
       }, 1000)
       //清空之前的背景变化延迟函数并添加最新的
-      clearTimeout(TIME_BG);
-      TIME_BG = setTimeout(() => {
-        if (this.data.FLAG_BRIGHT) {
+      clearTimeout(this.data.TIME_BG);
+      this.data.TIME_BG = setTimeout(() => {
+        if (this.data._flag_bright) {
           this.setData({
-            FLAG_BRIGHT: false
+            _flag_bright: false
           });
         }
       }, 2000)
@@ -960,18 +959,18 @@ Component({
     //移动中
     _moveDuring() {
       //清空之前的自动居中延迟函数
-      clearTimeout(TIME_CUT_CENTER);
-      if (this.data.CUT_ANIMATION) {
+      clearTimeout(this.data.TIME_CUT_CENTER);
+      if (this.data._cut_animation) {
         this.setData({
-          CUT_ANIMATION: false
+          _cut_animation: false
         });
       }
       //清空之前的背景变化延迟函数
-      clearTimeout(TIME_BG);
+      clearTimeout(this.data.TIME_BG);
       //高亮背景
-      if (!this.data.FLAG_BRIGHT) {
+      if (!this.data._flag_bright) {
         this.setData({
-          FLAG_BRIGHT: true
+          _flag_bright: true
         });
       }
     },
