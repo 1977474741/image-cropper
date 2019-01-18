@@ -63,6 +63,8 @@
 | height        | Number | 200      |超过屏幕高度自动转为屏幕高度|裁剪框高度|否|
 | max_width 	| Number | 300      |裁剪框最大宽度|裁剪框最大宽度|否|
 | max_height        | Number | 300      |裁剪框最大高度|裁剪框最大高度|否|
+| min_width 	| Number | 100      |裁剪框最小宽度|裁剪框最小宽度|否|
+| min_height        | Number | 100      |裁剪框最小高度|裁剪框最小高度|否|
 | disable_width 	| Boolean | false      |true/false|锁定裁剪框宽度|否|
 | disable_height    | Boolean | false      |true/false|锁定裁剪框高度|否|
 | export_scale  | Number | 3        |无限制|导出图片的大小比例(相对于裁剪框尺寸),决定了裁剪图片的尺寸|否|
