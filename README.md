@@ -1,26 +1,32 @@
 # image-cropper
 ## 一款高性能的小程序图片裁剪插件，支持旋转、设置尺寸
-## 功能亮点
-###### 1.功能强大。
-###### 2.性能超高超流畅，大图毫无卡顿感。
-###### 3.可以设置导出图片尺寸。
-###### 4.自由模式和限制模式随意切换。
-###### 5.插件化，使用非常简单。
-###### 6.点击中间窗口实时查看裁剪结果。
+###### `1.功能强大。`
+###### `2.性能超高超流畅，大图毫无卡顿感。`
+###### `3.可以设置导出图片尺寸。`
+###### `4.自由模式和限制模式随意切换。`
+###### `5.插件化，使用非常简单。`
+###### `6.点击中间窗口实时查看裁剪结果。`
 <h2 align = "center" style="">体验Demo</h2>
 <div align=center ><img width="200" height="200" src="https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg?v=0"/></div>
 
 ## 初始准备
 #### 1.json文件中添加image-cropper
+```json
     "usingComponents": {
        "image-cropper": "../image-cropper/image-cropper"
     }
+```
 #### 2.wxml文件
+```html
 	<image-cropper id="image-cropper" limit_move="true" disable_rotate="true" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut"></image-cropper>
+```
 #### 3.wxss文件末尾
-	@import '../image-cropper/image-cropper.wxss'  
+```javascript
+	@import '../image-cropper/image-cropper.wxss'
+```
 #### 4.示例
-	Page({
+```javascript
+    Page({
         data: {
             src:'',
             width:250,//宽度
@@ -52,8 +58,9 @@
                 urls: [e.detail.url] // 需要预览的图片http链接列表
             })
         },
-	})
-## 参数说明
+    })
+```
+## 参数说明<font color=#C39178 size=2>（高亮属性表示对于上个版本有修改，请注意）</font>
 | 属性           | 类型   | 缺省值  | 取值  | 描述  | 必填 |
 | ------------- |:------:|:------:|:-----:|:-----:|:-----:|
 | imgSrc      	| String | 无	   |无限制|图片地址(如果是网络图片需配置安全域名)|否|
@@ -73,8 +80,8 @@
 | cut_left 	| Number | 居中     |始终在屏幕内 |裁剪框左边距|否|
 | canvas_top 	| Number | -5000    |无限制(默认不显示-超出屏幕外) |canvas上边距|否|
 | canvas_left 	| Number | -5000    |无限制(默认不显示-超出屏幕外) |canvas左边距|否|
-| img_width 	| Number | 宽高都不设置，最小边填满裁剪框 |支持%(不加单位为px)(只设置宽度，高度自适应)|图片宽度|否|
-| img_height 	| Number | 宽高都不设置，最小边填满裁剪框 |支持%(不加单位为px)(只设置高度，宽度自适应)|图片高度|否|
+| `img_width` 	| Number | 宽高都不设置，最小边填满裁剪框 |支持%(不加单位为px)(只设置宽度，高度自适应)|图片宽度|否|
+| `img_height` 	| Number | 宽高都不设置，最小边填满裁剪框 |支持%(不加单位为px)(只设置高度，宽度自适应)|图片高度|否|
 | scale 	| Number | 1	   |无限制|图片的缩放比|否|
 | angle 	| Number | 0	   |无限制|图片的旋转角度|否|
 | min_scale 	| Number | 0.5	   |无限制|图片的最小缩放比|否|
