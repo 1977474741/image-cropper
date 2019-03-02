@@ -156,6 +156,8 @@ Component({
   data: {
     el: 'image-cropper', //暂时无用
     info: wx.getSystemInfoSync(),
+    MOVE_THROTTLE:null,//触摸移动节流settimeout
+    MOVE_THROTTLE_FLAG: true,//节流标识
     INIT_IMGWIDTH: 0, //图片设置尺寸,此值不变（记录最初设定的尺寸）
     INIT_IMGHEIGHT: 0, //图片设置尺寸,此值不变（记录最初设定的尺寸）
     TIME_BG: null,//背景变暗延时函数
@@ -185,7 +187,6 @@ Component({
           });
         }
         that._computeCutSize();
-        that._imgMarginDetectionScale()
       },
       height(value, that) {
         if (value < that.data.min_height) {
@@ -194,7 +195,6 @@ Component({
           });
         }
         that._computeCutSize();
-        that._imgMarginDetectionScale();
       },
       angle(value, that){
         //停止居中裁剪框，继续修改图片位置
@@ -207,8 +207,6 @@ Component({
             return;
           }
         }
-        that._imgMarginDetectionScale();
-        !that.data._canvas_overflow && that._draw();
       },
       _cut_animation(value, that){
         //开启过渡300毫秒之后自动关闭
@@ -227,10 +225,9 @@ Component({
             that.setData({
               angle: Math.round(that.data.angle / 90)*90
             });
-          }else{
-            that._imgMarginDetectionScale();
-            !that.data._canvas_overflow && that._draw();
           }
+          that._imgMarginDetectionScale();
+          !that.data._canvas_overflow && that._draw();
         }
       },
       canvas_top(value, that){
@@ -245,14 +242,12 @@ Component({
       cut_top(value, that) {
         that._cutDetectionPosition();
         if (that.data.limit_move) {
-          that._imgMarginDetectionScale();
           !that.data._canvas_overflow && that._draw();
         }
       },
       cut_left(value, that) {
         that._cutDetectionPosition();
         if (that.data.limit_move) {
-          that._imgMarginDetectionScale();
           !that.data._canvas_overflow && that._draw();
         }
       }
@@ -484,9 +479,6 @@ Component({
           if (this.data.limit_move) {
             //限制移动，不留空白处理
             this._imgMarginDetectionScale();
-            this.setData({
-              scale: this.data.scale
-            });
           }
           this._draw();
         },
@@ -509,7 +501,7 @@ Component({
     setScale(scale) {
       if (!scale) return;
       this.setData({
-        scale: scale.toFixed(3)
+        scale: scale
       });
       !this.data._canvas_overflow && this._draw();
     },
@@ -520,7 +512,7 @@ Component({
       if (!angle) return;
       this.setData({
         _cut_animation: true,
-        angle: angle.toFixed(2)
+        angle: angle
       });
       this._imgMarginDetectionScale();
       !this.data._canvas_overflow && this._draw();
@@ -536,11 +528,11 @@ Component({
      */
     _initImageSize(){
       //处理宽高特殊单位 %>px
-      if (this.data.INIT_IMGWIDTH && this.data.INIT_IMGWIDTH.indexOf("%") != -1) {
+      if (this.data.INIT_IMGWIDTH && typeof this.data.INIT_IMGWIDTH == "string" && this.data.INIT_IMGWIDTH.indexOf("%") != -1) {
         let width = this.data.INIT_IMGWIDTH.replace("%", "");
         this.data.INIT_IMGWIDTH = this.data.img_width = this.data.info.windowWidth / 100 * width;
       }
-      if (this.data.INIT_IMGHEIGHT && this.data.INIT_IMGHEIGHT.indexOf("%") != -1) {
+      if (this.data.INIT_IMGHEIGHT && typeof this.data.INIT_IMGHEIGHT == "string" && this.data.INIT_IMGHEIGHT.indexOf("%") != -1) {
         let height = this.data.img_height.replace("%", "");
         this.data.INIT_IMGHEIGHT = this.data.img_height = this.data.info.windowHeight / 100 * height;
       }
@@ -583,12 +575,12 @@ Component({
       } else if (this.data.cut_top != null && this.data.cut_left == null) {
         _cutDetectionPositionTop();
         this.setData({
-          cut_left: (wx.getSystemInfoSync().windowWidth - this.data.width) / 2
+          cut_left: (this.data.info.windowWidth - this.data.width) / 2
         });
       } else if (this.data.cut_top == null && this.data.cut_left != null) {
         _cutDetectionPositionLeft();
         this.setData({
-          cut_top: (wx.getSystemInfoSync().windowHeight - this.data.height) / 2
+          cut_top: (this.data.info.windowHeight - this.data.height) / 2
         });
       }
     },
@@ -627,32 +619,32 @@ Component({
     /**
      * 图片边缘检测-位置
      */
-    _imgMarginDetectionPosition() {
-      if (!this.data.limit_move)return;
+    _imgMarginDetectionPosition(scale) {
+      if (!this.data.limit_move) return;
       let left = this.data._img_left;
       let top = this.data._img_top;
+      var scale = scale || this.data.scale;
       let img_width = this.data.img_width;
       let img_height = this.data.img_height;
       if (this.data.angle / 90 % 2) {
         img_width = this.data.img_height;
         img_height = this.data.img_width;
       }
-      left = this.data.cut_left + img_width * this.data.scale / 2 >= left ? left : this.data.cut_left + img_width * this.data.scale / 2;
-      left = this.data.cut_left + this.data.width - img_width * this.data.scale / 2 <= left ? left : this.data.cut_left + this.data.width - img_width * this.data.scale / 2;
-      top = this.data.cut_top + img_height * this.data.scale / 2 >= top ? top : this.data.cut_top + img_height * this.data.scale / 2;
-      top = this.data.cut_top + this.data.height - img_height * this.data.scale / 2 <= top ? top : this.data.cut_top + this.data.height - img_height * this.data.scale / 2;
-      this.data._img_left = left;
-      this.data._img_top = top;
+      left = this.data.cut_left + img_width * scale / 2 >= left ? left : this.data.cut_left + img_width * scale / 2;
+      left = this.data.cut_left + this.data.width - img_width * scale / 2 <= left ? left : this.data.cut_left + this.data.width - img_width * scale / 2;
+      top = this.data.cut_top + img_height * scale / 2 >= top ? top : this.data.cut_top + img_height * scale / 2;
+      top = this.data.cut_top + this.data.height - img_height * scale / 2 <= top ? top : this.data.cut_top + this.data.height - img_height * scale / 2;
       this.setData({
-        _img_left: this.data._img_left,
-        _img_top: this.data._img_top,
-      });
+        _img_left: left,
+        _img_top: top,
+        scale: scale
+      })
     },
     /**
      * 图片边缘检测-缩放
      */
     _imgMarginDetectionScale(){
-      if (!this.data.limit_move) return;
+      if (!this.data.limit_move)return;
       let scale = this.data.scale;
       let img_width = this.data.img_width;
       let img_height = this.data.img_height;
@@ -661,15 +653,22 @@ Component({
         img_height = this.data.img_width;
       }
       if (img_width * scale < this.data.width){
-        this.data.scale = this.data.width / img_width;
-      } else if (img_height * scale < this.data.height){
-        this.data.scale = this.data.height / img_height;
+        scale = this.data.width / img_width;
       }
-      //改变位置
-      this._imgMarginDetectionPosition();
-      this.setData({
-        scale: this.data.scale
-      });
+      if (img_height * scale < this.data.height) {
+        scale = Math.max(scale,this.data.height / img_height);
+      }
+      this._imgMarginDetectionPosition(scale);
+    },
+    _setData(obj) {
+      let data = {};
+      for (var key in obj) {
+        if (this.data[key] != obj[key]){
+          data[key] = obj[key];
+        }
+      }
+      this.setData(data);
+      return data;
     },
     /**
      * 计算图片尺寸
@@ -726,31 +725,45 @@ Component({
       if (event.touches.length == 1) {
         //单指拖动
         this.data._touch_img_relative[0] = {
-          x: event.touches[0].clientX - this.data._img_left,
-          y: event.touches[0].clientY - this.data._img_top
+          x: (event.touches[0].clientX - this.data._img_left),
+          y: (event.touches[0].clientY - this.data._img_top)
         }
       } else {
         //双指放大
         let width = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
         let height = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
         this.data._touch_img_relative = [{
-          x: event.touches[0].clientX - this.data._img_left,
-          y: event.touches[0].clientY - this.data._img_top
+          x: (event.touches[0].clientX - this.data._img_left),
+          y: (event.touches[0].clientY - this.data._img_top)
         }, {
-            x: event.touches[1].clientX - this.data._img_left,
-            y: event.touches[1].clientY - this.data._img_top
+          x: (event.touches[1].clientX - this.data._img_left),
+          y: (event.touches[1].clientY - this.data._img_top)
         }];
         this.data._hypotenuse_length = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
       }
       !this.data._canvas_overflow && this._draw();
     },
+    _move_throttle(){
+      //安卓需要节流
+      if (this.data.info.platform =='android'){
+        clearTimeout(this.data.MOVE_THROTTLE);
+        this.data.MOVE_THROTTLE = setTimeout(() => {
+          this.data.MOVE_THROTTLE_FLAG = true;
+        }, 1000 / 40)
+        return this.data.MOVE_THROTTLE_FLAG;
+      }else{
+        this.data.MOVE_THROTTLE_FLAG = true;
+      }
+    },
     _move(event) {
-      if (this.data._flag_img_endtouch) return;
+      if (this.data._flag_img_endtouch || !this.data.MOVE_THROTTLE_FLAG) return;
+      this.data.MOVE_THROTTLE_FLAG = false;
+      this._move_throttle();
       this._moveDuring();
       if (event.touches.length == 1) {
         //单指拖动
-        let left = event.touches[0].clientX - this.data._touch_img_relative[0].x,
-            top = event.touches[0].clientY - this.data._touch_img_relative[0].y;
+        let left = (event.touches[0].clientX - this.data._touch_img_relative[0].x),
+            top = (event.touches[0].clientY - this.data._touch_img_relative[0].y);
         //图像边缘检测,防止截取到空白
         this.data._img_left = left;
         this.data._img_top = top;
@@ -758,11 +771,11 @@ Component({
         this.setData({
           _img_left: this.data._img_left,
           _img_top: this.data._img_top
-        });
+        })
       } else {
         //双指放大
-        let width = Math.abs(event.touches[0].clientX - event.touches[1].clientX),
-            height = Math.abs(event.touches[0].clientY - event.touches[1].clientY),
+        let width = (Math.abs(event.touches[0].clientX - event.touches[1].clientX)),
+            height = (Math.abs(event.touches[0].clientY - event.touches[1].clientY)),
             hypotenuse = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)),
             scale = this.data.scale * (hypotenuse / this.data._hypotenuse_length),
             current_deg = 0;
@@ -773,11 +786,11 @@ Component({
         this._imgMarginDetectionScale();
         //双指旋转(如果没禁用旋转)
         let _touch_img_relative = [{
-          x: event.touches[0].clientX - this.data._img_left,
-          y: event.touches[0].clientY - this.data._img_top
+          x: (event.touches[0].clientX - this.data._img_left),
+          y: (event.touches[0].clientY - this.data._img_top)
         }, {
-            x: event.touches[1].clientX - this.data._img_left,
-            y: event.touches[1].clientY - this.data._img_top 
+          x: (event.touches[1].clientX - this.data._img_left),
+          y: (event.touches[1].clientY - this.data._img_top)
         }];
         if (!this.data.disable_rotate){
           let first_atan = 180 / Math.PI * Math.atan2(_touch_img_relative[0].y, _touch_img_relative[0].x);
@@ -866,12 +879,24 @@ Component({
     },
     //裁剪框处理
     _cutTouchMove(e) {
-      if (this.data._flag_cut_touch) {
+      if (this.data._flag_cut_touch && this.data.MOVE_THROTTLE_FLAG) {
+        if (this.data.disable_ratio && (this.data.disable_width || this.data.disable_height)) return;
+        //节流
+        this.data.MOVE_THROTTLE_FLAG = false;
+        this._move_throttle();
         let width = this.data.width,
           height = this.data.height,
           cut_top = this.data.cut_top,
           cut_left = this.data.cut_left,
-          _width, _height;
+          _width, _height,
+          cut_left_limit =()=>{
+            cut_left = cut_left + this.data.min_width >= this.data.CUT_START.cut_left + this.data.CUT_START.width ? this.data.CUT_START.cut_left + this.data.CUT_START.width - this.data.min_width : cut_left;
+            cut_left = cut_left + this.data.max_width <= this.data.CUT_START.cut_left + this.data.CUT_START.width ? this.data.CUT_START.cut_left + this.data.CUT_START.width - this.data.max_width : cut_left;
+          },
+          cut_top_limit =()=>{
+            cut_top = cut_top + this.data.min_height >= this.data.CUT_START.cut_top + this.data.CUT_START.height ? this.data.CUT_START.cut_top + this.data.CUT_START.height - this.data.min_height : cut_top;
+            cut_top = cut_top + this.data.max_height <= this.data.CUT_START.cut_top + this.data.CUT_START.height ? this.data.CUT_START.cut_top + this.data.CUT_START.height - this.data.max_height : cut_top;
+          };
         switch (this.data.CUT_START.corner) {
           case 1:
             width = this.data.CUT_START.width + this.data.CUT_START.x - e.touches[0].clientX;
@@ -881,6 +906,7 @@ Component({
               height = this.data.CUT_START.height - this.data.CUT_START.y + e.touches[0].clientY;
             }
             cut_left = this.data.CUT_START.cut_left - (width - this.data.CUT_START.width);
+            cut_left_limit();
             break
           case 2:
             width = this.data.CUT_START.width + this.data.CUT_START.x - e.touches[0].clientX;
@@ -891,6 +917,8 @@ Component({
             }
             cut_top = this.data.CUT_START.cut_top - (height - this.data.CUT_START.height)
             cut_left = this.data.CUT_START.cut_left - (width - this.data.CUT_START.width)
+            cut_top_limit();
+            cut_left_limit();
             break
           case 3:
             width = this.data.CUT_START.width - this.data.CUT_START.x + e.touches[0].clientX;
@@ -900,6 +928,7 @@ Component({
               height = this.data.CUT_START.height + this.data.CUT_START.y - e.touches[0].clientY;
             }
             cut_top = this.data.CUT_START.cut_top - (height - this.data.CUT_START.height);
+            cut_top_limit();
             break
           case 4:
             width = this.data.CUT_START.width - this.data.CUT_START.x + e.touches[0].clientX;
@@ -910,44 +939,52 @@ Component({
             }
             break
         }
-        let limit_width = !this.data.disable_width && width <= this.data.max_width && width >= this.data.min_width;
-        let limit_height = !this.data.disable_height && height <= this.data.max_height && height >= this.data.min_height;
-        if (this.data.disable_ratio && (!limit_height || !limit_width)) return;
-        if (limit_width) {
+        width = width > this.data.max_width ? this.data.max_width : width;
+        width = width < this.data.min_width ? this.data.min_width : width;
+        height = height > this.data.max_height ? this.data.max_height : height;
+        height = height < this.data.min_height ? this.data.min_height : height;
+        if (!this.data.disable_width && !this.data.disable_height){
           this.setData({
             width: width,
             cut_left: cut_left,
-          })
-        }
-        if (limit_height) {
-          this.setData({
-            height: height.toFixed(2),
+            height: height,
             cut_top: cut_top,
           })
+        } else if (!this.data.disable_width) {
+          this.setData({
+            width: width,
+            cut_left: cut_left
+          })
+        } else if (!this.data.disable_height) {
+          this.setData({
+            height: height,
+            cut_top: cut_top
+          })
         }
+        this._imgMarginDetectionScale();
       }
     },
     _cutTouchStart(e) {
       let currentX = e.touches[0].clientX;
       let currentY = e.touches[0].clientY;
-      let cutbox_top4 = this.data.cut_top + this.data.height - 20;
+      let cutbox_top4 = this.data.cut_top + this.data.height - 30;
       let cutbox_bottom4 = this.data.cut_top + this.data.height + 20;
-      let cutbox_left4 = this.data.cut_left + this.data.width - 20;
+      let cutbox_left4 = this.data.cut_left + this.data.width - 30;
       let cutbox_right4 = this.data.cut_left + this.data.width + 30;
 
-      let cutbox_top3 = this.data.cut_top - 20;
-      let cutbox_bottom3 = this.data.cut_top + 20;
-      let cutbox_left3 = this.data.cut_left + this.data.width - 20;
+      let cutbox_top3 = this.data.cut_top - 30;
+      let cutbox_bottom3 = this.data.cut_top + 30;
+      let cutbox_left3 = this.data.cut_left + this.data.width - 30;
       let cutbox_right3 = this.data.cut_left + this.data.width + 30;
 
-      let cutbox_top2 = this.data.cut_top - 20;
-      let cutbox_bottom2 = this.data.cut_top + 20;
-      let cutbox_left2 = this.data.cut_left - 20;
+      let cutbox_top2 = this.data.cut_top - 30;
+      let cutbox_bottom2 = this.data.cut_top + 30;
+      let cutbox_left2 = this.data.cut_left - 30;
       let cutbox_right2 = this.data.cut_left + 30;
 
-      let cutbox_top1 = this.data.cut_top + this.data.height - 20;
-      let cutbox_bottom1 = this.data.cut_top + this.data.height + 20;
-      let cutbox_left1 = this.data.cut_left - 20;
+      let cutbox_top1 = this.data.cut_top + this.data.height - 30;
+      let cutbox_bottom1 = this.data.cut_top + this.data.height + 30;
+      let cutbox_left1 = this.data.cut_left - 30;
       let cutbox_right1 = this.data.cut_left + 30;
       if (currentX > cutbox_left4 && currentX < cutbox_right4 && currentY > cutbox_top4 && currentY < cutbox_bottom4) {
         this._moveDuring();
@@ -1043,26 +1080,32 @@ Component({
     },
     //监听器
     _watcher() {
-      Object.keys(this.data.watch).forEach(v => {
+      Object.keys(this.data).forEach(v => {
         this._observe(this.data, v, this.data.watch[v]);
       })
     },
     _observe(obj, key, watchFun) {
-      var val = obj[key]; // 给该属性设默认值
+      var val = obj[key];
       Object.defineProperty(obj, key, {
         configurable: true,
         enumerable: true,
         set:(value) => {
           val = value;
-          watchFun(val, this);
+          watchFun && watchFun(val, this);
         },
         get() {
+          if (val && '_img_top|img_left||width|height|min_width|max_width|min_height|max_height|export_scale|cut_top|cut_left|canvas_top|canvas_left|img_width|img_height|scale|angle|min_scale|max_scale'.indexOf(key)!=-1){
+            let ret = parseFloat(parseFloat(val).toFixed(3));
+            if (typeof val == "string" && val.indexOf("%") != -1){
+              ret+='%';
+            }
+            return ret;
+          }
           return val;
         }
       })
     }
   },
   _preventTouchMove() {
-
   }
 })
