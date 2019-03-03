@@ -21,4 +21,4 @@
       <image bindload="imageLoad" bindtouchstart="_start" bindtouchmove="_move" bindtouchend="_end" style="width:{{img_width ? img_width + 'px' : 'auto'}};height:{{img_height ? img_height + 'px' : 'auto'}};transform:translate3d({{_img_left-img_width/2}}px,{{_img_top-img_height/2}}px,0) scale({{scale}}) rotate({{angle}}deg);transition-duration:{{_cut_animation?.4:0}}s;" class='img' src='{{imgSrc}}'></image>
     </view>
     <canvas canvas-id='image-cropper' disable-scroll="true" style="width:{{_canvas_width}}px;height:{{_canvas_height}}px;left:{{canvas_left}}px;top:{{canvas_top}}px" class='image-cropper-canvas'></canvas>
-  </view>
+  </view> 
