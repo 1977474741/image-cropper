@@ -1,5 +1,5 @@
 .image-cropper{
-  background:rgba(14, 13, 13,.8);
+  background:rgba(14, 13, 13,0.8);
   position: fixed;
   top:0;
   left:0;
