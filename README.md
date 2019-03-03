@@ -88,8 +88,8 @@
 | angle 	| Number | 0	   |(limit_move=true时angle=n*90)|图片的旋转角度|否|
 | min_scale 	| Number | 0.5	   |无限制|图片的最小缩放比|否|
 | max_scale 	| Number | 2	   |无限制|图片的最大缩放比|否|
-| bindload 	| Function | null	   |函数名称|cropper初始化完成|否|
-| bindimageload | Function | null  |函数名称|图片加载完成,返回值Object{width,height,path,type}|否|
+| bindload 	| Function | null   |函数名称|cropper初始化完成|否|
+| bindimageload | Function | null  |函数名称|图片加载完成,返回值Object{width,height,path,type等}|否|
 | bindtapcut 	| Function | null  |函数名称|点击中间裁剪框,返回值Object{src,width,height}|否|
 ## 函数说明
 | 函数名         | 参数   	       | 返回值  |描述|参数必填|
