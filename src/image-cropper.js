@@ -768,7 +768,7 @@ Component({
         this.setData({
           _img_left: this.data._img_left,
           _img_top: this.data._img_top
-        })
+        });
       } else {
         //双指放大
         let width = (Math.abs(event.touches[0].clientX - event.touches[1].clientX)),
