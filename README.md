@@ -76,7 +76,7 @@
 | disable_width 	| Boolean | false      |true/false|锁定裁剪框宽度|否|
 | disable_height    | Boolean | false      |true/false|锁定裁剪框高度|否|
 | disable_ratio    | Boolean | false      |true/false|锁定裁剪框比例|否|
-| export_scale  | Number | 3        |无限制|导出图片的大小比例(相对于裁剪框尺寸),决定了裁剪图片的尺寸|否|
+| export_scale  | Number | 3        |无限制|输出图片的比例(相对于裁剪框尺寸)|否|
 | quality 	| Number | 1        |0-1|生成的图片质量|否|
 | cut_top 	| Number | 居中     |始终在屏幕内 |裁剪框上边距|否|
 | cut_left 	| Number | 居中     |始终在屏幕内 |裁剪框左边距|否|
