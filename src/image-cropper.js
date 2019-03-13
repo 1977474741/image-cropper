@@ -299,8 +299,8 @@ Component({
     getImg(getCallback) {
       this._draw(()=>{
         wx.canvasToTempFilePath({
-          width: this.data.width,
-          height: Math.round(this.data.height),
+          width: this.data.width * this.data.export_scale,
+          height: Math.round(this.data.height * this.data.export_scale),
           destWidth: this.data.width * this.data.export_scale,
           destHeight: Math.round(this.data.height) * this.data.export_scale,
           fileType: 'png',
