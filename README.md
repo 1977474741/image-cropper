@@ -103,3 +103,4 @@
 | setTransform  |{x,y,angle,scale,cutX,cutY}|   无    |图片在原有基础上的变化(scale受min_scale、max_scale影响)|根据需要传参|
 | imgReset      |无	          |   无    |重置图片的角度、缩放、位置(可以在onloadImage回调里使用)|否|
 <h3 align = "center" style="">如果有什么好的建议欢迎提issues或者加qq1977474741交流</h3>
+<div align=center ><img width="200" height="200" src="https://www.asqql.com/upfile/2009pasdfasdfic2009s305985-ts/697fa8b69ad20f7f/5fc95cb3245d9bbf.jpeg"/></div>
