@@ -12,10 +12,10 @@
 #### 1.json文件中添加image-cropper
 ```json
     "usingComponents": {
-        "navigationBarTitleText": "裁剪图片",
-        "image-cropper": "../image-cropper/image-cropper",
-        "disableScroll": true,
-    }
+       "image-cropper": "../image-cropper/image-cropper"
+    },
+    "navigationBarTitleText": "裁剪图片",
+    "disableScroll": true
 ```
 #### 2.wxml文件
 ```html
