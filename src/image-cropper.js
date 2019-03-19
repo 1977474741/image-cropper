@@ -254,6 +254,7 @@ Component({
     }
   },
   attached() {
+    this.data.info = wx.getSystemInfoSync();
     //启用数据监听
     this._watcher();
     this.data.INIT_IMGWIDTH = this.data.img_width;
