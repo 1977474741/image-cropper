@@ -21,11 +21,7 @@
 ```html
 	<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut"></image-cropper>
 ```
-#### 3.wxss文件末尾
-```javascript
-	@import '../image-cropper/image-cropper.wxss'
-```
-#### 4.示例
+#### 3.示例
 ```javascript
     Page({
         data: {
