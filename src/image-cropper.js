@@ -291,6 +291,9 @@ Component({
         success(res) {
           const tempFilePaths = res.tempFilePaths[0];
           that.pushImg(tempFilePaths);
+          wx.showLoading({
+            title: '加载中...'
+          })
         }
       })
     },
