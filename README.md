@@ -30,7 +30,9 @@
             height: 250,//高度
         },
         onLoad: function (options) {
+	    //获取到image-cropper对象
             this.cropper = this.selectComponent("#image-cropper");
+            //开始裁剪
             this.setData({
                 src:"https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg",
             });
