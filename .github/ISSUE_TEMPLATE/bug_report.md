@@ -1,5 +1,6 @@
 ---
 name: 提交bug
+about: 按照这个模板写
 title: ''
 labels: ''
 assignees: ''
