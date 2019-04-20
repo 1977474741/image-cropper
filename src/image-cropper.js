@@ -870,11 +870,8 @@ Component({
         this.data.ctx.translate(xpos * this.data.export_scale, ypos * this.data.export_scale);
         this.data.ctx.rotate(this.data.angle * Math.PI / 180);
         this.data.ctx.drawImage(this.data.imgSrc, -img_width / 2, -img_height / 2, img_width, img_height);
-        //延迟50毫秒防止点击过快出现拉伸或裁剪过多
         this.data.ctx.draw(false, () => {
-          setTimeout(()=>{
             callback && callback();
-          },30);
         });
       }
       if (this.data.ctx.width != this.data.width || this.data.ctx.height != this.data.height){
@@ -883,7 +880,10 @@ Component({
           _canvas_height: this.data.height,
           _canvas_width: this.data.width,
         },()=>{
+          //延迟20毫秒防止点击过快出现拉伸或裁剪过多
+          setTimeout(() => {
             draw();
+          }, 20);
         });
       }else{
         draw();
