@@ -9,6 +9,7 @@
 <div align=center ><img width="200" height="200" src="https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg?v=0"/></div>
 
 ## 初始准备
+(注意事项：如果用的框架，请把插件放在静态文件夹里，因为这是原生小程序组件，不参与打包)
 #### 1.json文件中添加image-cropper
 ```json
     "usingComponents": {
