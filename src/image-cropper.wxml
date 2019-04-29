@@ -4,7 +4,7 @@
         <view class='content_top bg_gray {{_flag_bright?"":"bg_black"}}' style="height:{{cut_top}}px;transition-property:{{_cut_animation?'':'background'}}"></view>
         <view class='content_middle' style="height:{{height}}px;">
           <view class='content_middle_left bg_gray {{_flag_bright?"":"bg_black"}}' style="width:{{cut_left}}px;transition-property:{{_cut_animation?'':'background'}}"></view>
-          <view catchtouchstart='_cutStart' class='content_middle_middle' style="width:{{width}}px;height:{{height}}px;transition-duration: .3s;transition-property:{{_cut_animation?'':'background'}};">
+          <view class='content_middle_middle' style="width:{{width}}px;height:{{height}}px;transition-duration: .3s;transition-property:{{_cut_animation?'':'background'}};">
             <view class="border border-top-left"></view>
             <view class="border border-top-right"></view>
             <view class="border border-right-top"></view>
