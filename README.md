@@ -106,4 +106,4 @@
 
 Demo地址：https://github.com/wx-plugin/image-cropper-demo
 <h3 align = "center" style="">如果有什么好的建议欢迎提issues或者加qq1977474741交流</h3>
-<div align=center ><img width="300" height="300" src="https://raw.githubusercontent.com/wx-plugin/image-cropper/master/.github/ISSUE_TEMPLATE/encourage.jpg"/></div>
+<div align=center ><img width="330" height="330" src="https://raw.githubusercontent.com/wx-plugin/image-cropper/master/.github/ISSUE_TEMPLATE/encourage.jpg"/></div>
