@@ -1109,8 +1109,8 @@ Component({
           return val;
         }
       })
+    },
+    _preventTouchMove() {
     }
-  },
-  _preventTouchMove() {
   }
 })
