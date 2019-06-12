@@ -93,7 +93,7 @@
 | upload      	|  无    	  |   无   |调起wx上传图片接口并开始剪裁|否|
 | pushImg       |  src   	   |   无   |开始裁剪图片|是|
 | getImg        |Function(回调函数) |   `Object{url,width,height}`  |获取裁剪之后的图片(图片尺寸 = 图片宽高 * export_scale)|是|
-| setCutXY     	|  X、Y  	  |   无    |设置裁剪框位置|是|
+| ~~setCutXY~~     	|  X、Y  	  |   无    |设置裁剪框位置|是|
 | setCutSize    |  width、height   |   无    |设置裁剪框大小|是|
 | setCutCenter  |  无   	   	  |   无    |设置裁剪框居中|否|
 | setScale      |  scale   	   |   无    |设置图片缩放比例（不受min_scale、max_scale影响）|是|
