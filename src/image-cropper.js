@@ -880,10 +880,10 @@ Component({
           _canvas_height: this.data.height,
           _canvas_width: this.data.width,
         },()=>{
-          //延迟20毫秒防止点击过快出现拉伸或裁剪过多
+          //延迟40毫秒防止点击过快出现拉伸或裁剪过多
           setTimeout(() => {
             draw();
-          }, 20);
+          }, 40);
         });
       }else{
         draw();
