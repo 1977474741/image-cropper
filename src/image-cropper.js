@@ -468,6 +468,10 @@ Component({
         //发现是手动赋值直接返回，交给watch处理
         return;
       }
+      
+      // getImageInfo接口传入 src: '' 会导致内存泄漏
+      
+      if (!this.data.imgSrc) return;
       wx.getImageInfo({
         src: this.data.imgSrc,
         success: (res) => {
