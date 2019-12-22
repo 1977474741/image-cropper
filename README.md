@@ -29,7 +29,7 @@
             height: 250,//高度
         },
         onLoad: function (options) {
-	    //获取到image-cropper对象
+	    //获取到image-cropper实例
             this.cropper = this.selectComponent("#image-cropper");
             //开始裁剪
             this.setData({
@@ -90,8 +90,8 @@
 | 函数名         | 参数   	       | 返回值  |描述|参数必填|
 | ------------- |:------:	   |:------:|:------:|:------:|
 | upload      	|  无    	  |   无   |调起wx上传图片接口并开始剪裁|否|
-| pushImg       |  src   	   |   无   |开始裁剪图片|是|
-| getImg        |Function(回调函数) |   `Object{url,width,height}`  |获取裁剪之后的图片(图片尺寸 = 图片宽高 * export_scale)|是|
+| pushImg       |  src   	   |   无   |放入图片开始裁剪|是|
+| getImg        |Function(回调函数) |   `Object{url,width,height}`  |裁剪并获取图片(图片尺寸 = 图片宽高 * export_scale)|是|
 | ~~setCutXY~~     	|  X、Y  	  |   无    |设置裁剪框位置|是|
 | setCutSize    |  width、height   |   无    |设置裁剪框大小|是|
 | setCutCenter  |  无   	   	  |   无    |设置裁剪框居中|否|
