@@ -5,7 +5,7 @@
 ###### `3.组件化，使用简单。`
 ###### `4.点击中间窗口实时查看裁剪结果。`
 <h2 align = "center" style="">体验Demo</h2>
-<div align=center ><img width="200" height="200" src="https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg?v=0"/></div>
+<div align=center ><img width="200" height="200" src="https://pubser-res.zhenai.com/other/temp/202006/19/12085876945182.jpg"/></div>
 
 ## 初始准备
 #### 1.json文件中添加image-cropper
