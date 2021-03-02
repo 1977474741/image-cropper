@@ -7,13 +7,13 @@
   height:100vh;
   z-index: 1;
 }
-.main{
+.image-cropper .main{
   position: absolute;
   width:100vw;
   height:100vh;
   overflow: hidden;
 }
-.content{
+.image-cropper .content{
   z-index: 9;
   position: absolute;
   width:100vw;
@@ -22,31 +22,31 @@
   flex-direction:column;
   pointer-events:none;
 }
-.bg_black{
+.image-cropper .bg_black{
   background: rgba(0, 0, 0, 0.8)!important;
 }
-.bg_gray{
+.image-cropper .bg_gray{
   background: rgba(0, 0, 0, 0.45);
   transition-duration: .35s;
 }
-.content>.content_top{
+.image-cropper .content>.content_top{
   pointer-events:none;
 }
-.content>.content_middle{
+.image-cropper .content>.content_middle{
   display: flex;
   height: 200px;
   width:100%;
 }
-.content_middle_middle{
+.image-cropper .content_middle_middle{
   width:200px;
   box-sizing:border-box;
   position: relative;
   transition-duration: .3s;
 }
-.content_middle_right{
+.image-cropper .content_middle_right{
   flex: auto;
 }
-.content>.content_bottom{
+.image-cropper .content>.content_bottom{
   flex: auto;
 }
 .image-cropper .img{
@@ -59,7 +59,7 @@
   backface-visibility: hidden;
   transform-origin:center;
 }
-.image-cropper-canvas{
+.image-cropper .image-cropper-canvas{
   position: fixed;
   background: white;
   width:150px;
@@ -68,54 +68,54 @@
   top:-200%;
   pointer-events:none;
 }
-.border{
+.image-cropper .border{
   background: white;
   pointer-events:auto;
   position:absolute;
 }
-.border-top-left{
+.image-cropper .border-top-left{
   left:-2.5px;
   top:-2.5px;
   height:2.5px;
   width:33rpx;
 }
-.border-top-right{
+.image-cropper .border-top-right{
   right:-2.5px;
   top:-2.5px;
   height:2.5px;
   width:33rpx;
 }
-.border-right-top{
+.image-cropper .border-right-top{
   top:-1px;
   width:2.5px;
   height:30rpx;
   right:-2.5px;
 }
-.border-right-bottom{
+.image-cropper .border-right-bottom{
   width:2.5px;
   height:30rpx;
   right:-2.5px;
   bottom:-1px;
 }
-.border-bottom-left{
+.image-cropper .border-bottom-left{
   height:2.5px;
   width:33rpx;
   bottom:-2.5px;
   left:-2.5px;
 }
-.border-bottom-right{
+.image-cropper .border-bottom-right{
   height:2.5px;
   width:33rpx;
   bottom:-2.5px;
   right:-2.5px;
 }
-.border-left-top{
+.image-cropper .border-left-top{
   top:-1px;
   width:2.5px;
   height:30rpx;
   left:-2.5px;
 }
-.border-left-bottom{
+.image-cropper .border-left-bottom{
   width:2.5px;
   height:30rpx;
   left:-2.5px;
