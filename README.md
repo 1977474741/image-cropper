@@ -102,6 +102,8 @@
 
 Demo地址：https://github.com/wx-plugin/image-cropper-demo
 
+[点击导入代码片段](https://developers.weixin.qq.com/s/dIQvo5mr7cpm)
+
 如果有什么好的建议欢迎提issues或者提pr
 
 ## 进群 | 鼓励作者
