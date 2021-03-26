@@ -5,10 +5,8 @@ Page({
         src: ''
     },
     toCropper() {
-        let url = 'https://pubser-res.zhenai.com/activity/202007/30/21480199030108.png';
-        url = '';
         wx.navigateTo({
-            url: `/cropper/cropper?imgSrc=${url}`
+            url: `/cropper/cropper?imgSrc=${this.data.src}`
         })
     },
     onShow() {

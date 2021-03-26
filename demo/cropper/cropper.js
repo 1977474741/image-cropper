@@ -4,7 +4,7 @@ Page({
     data: {
         src: '',
         width: 250, //宽度
-        height: 200, //高度
+        height: 250, //高度
         max_width: 300,
         max_height: 300,
         disable_rotate: true, //是否禁用旋转
@@ -16,7 +16,9 @@ Page({
             this.setData({
                 src: options.imgSrc
             });
-            this.cropper.upload(); //上传图片
+            if(!options.imgSrc){
+                this.cropper.upload(); //上传图片
+            }
         },
         cropperload(e) {
             console.log('cropper加载完成');
