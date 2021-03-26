@@ -1,0 +1,24 @@
+.intro {
+    background: #292929;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.head {
+    margin-top: -20%;
+    overflow: hidden;
+    border-radius: 100%;
+    width: 200rpx;
+    height: 200rpx;
+    border: 4rpx solid #fff5f7;
+    line-height: 200rpx;
+    color: #fff5f7;
+}
+
+.head>image {
+    width: 100%;
+}

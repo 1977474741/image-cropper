@@ -1,0 +1,10 @@
+<view class="intro">
+    <view class="head" bindtap="toCropper">
+        <block wx:if="{{src}}">
+            <image mode="widthFix" src="{{src}}"></image>
+        </block>
+        <block wx:else>
+            点击裁剪
+        </block>
+    </view>
+</view>

@@ -1,0 +1,10 @@
+{
+    "navigationBarTitleText": "image-cropper",
+    "disableScroll": true,
+    "navigationBarBackgroundColor": "#292929",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#292929",
+    "usingComponents": {
+        "image-cropper": "../component/image-cropper/image-cropper"
+    }
+}

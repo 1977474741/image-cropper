@@ -1,0 +1,218 @@
+.image-cropper {
+    background: rgba(14, 13, 13, .8);
+    position: fixed;
+
+    .top {
+        position: absolute;
+        width: 100%;
+        top: 10rpx;
+        display: flex;
+        flex-flow: wrap;
+        z-index: 10;
+        color: white;
+        justify-content: space-around;
+    }
+
+    .hint {
+        position: absolute;
+        top: 10rpx;
+        width: 100%;
+        font-size: 33rpx;
+        text-align: center;
+        color: white;
+        z-index: 10;
+    }
+
+    page {
+        background: white;
+    }
+
+    view {
+        font-size: 30rpx;
+    }
+
+    .bottom {
+        position: absolute;
+        width: 100%;
+        bottom: 50rpx;
+        display: flex;
+        z-index: 10;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        height: 210rpx;
+    }
+
+    button {
+        font-size: 27rpx;
+        z-index: 2;
+        padding: 0 20rpx;
+        height: 60rpx;
+        min-width: 70rpx;
+        margin: 0 4rpx;
+    }
+
+    .input {
+        display: flex;
+        height: 50rpx;
+        width: 50%;
+    }
+
+    .input>.label {
+        min-width: 150rpx;
+        font-size: 30rpx;
+        height: 50rpx;
+        line-height: 50rpx;
+    }
+
+    .input>input {
+        margin-left: 10rpx;
+        text-align: center;
+        max-width: 160rpx;
+        border: 1px solid rgb(255, 255, 255);
+        height: 50rpx;
+        line-height: 50rpx;
+        min-height: 50rpx;
+        box-sizing: border-box;
+    }
+
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+}
+
+.image-cropper .main {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.image-cropper .content {
+    z-index: 9;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.image-cropper .bg_black {
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.image-cropper .bg_gray {
+    background: rgba(0, 0, 0, 0.45);
+    transition-duration: .35s;
+}
+
+.image-cropper .content>.content_top {
+    pointer-events: none;
+}
+
+.image-cropper .content>.content_middle {
+    display: flex;
+    height: 200px;
+    width: 100%;
+}
+
+.image-cropper .content_middle_middle {
+    width: 200px;
+    box-sizing: border-box;
+    position: relative;
+    transition-duration: .3s;
+}
+
+.image-cropper .content_middle_right {
+    flex: auto;
+}
+
+.image-cropper .content>.content_bottom {
+    flex: auto;
+}
+
+.image-cropper .img {
+    z-index: 2;
+    top: 0;
+    left: 0;
+    position: absolute;
+    border: none;
+    width: 100%;
+    backface-visibility: hidden;
+    transform-origin: center;
+}
+
+.image-cropper .image-cropper-canvas {
+    position: fixed;
+    background: white;
+    width: 150px;
+    height: 150px;
+    z-index: 10;
+    top: -200%;
+    pointer-events: none;
+}
+
+.image-cropper .border {
+    background: white;
+    pointer-events: auto;
+    position: absolute;
+}
+
+.image-cropper .border-top-left {
+    left: -2.5px;
+    top: -2.5px;
+    height: 2.5px;
+    width: 33rpx;
+}
+
+.image-cropper .border-top-right {
+    right: -2.5px;
+    top: -2.5px;
+    height: 2.5px;
+    width: 33rpx;
+}
+
+.image-cropper .border-right-top {
+    top: -1px;
+    width: 2.5px;
+    height: 30rpx;
+    right: -2.5px;
+}
+
+.image-cropper .border-right-bottom {
+    width: 2.5px;
+    height: 30rpx;
+    right: -2.5px;
+    bottom: -1px;
+}
+
+.image-cropper .border-bottom-left {
+    height: 2.5px;
+    width: 33rpx;
+    bottom: -2.5px;
+    left: -2.5px;
+}
+
+.image-cropper .border-bottom-right {
+    height: 2.5px;
+    width: 33rpx;
+    bottom: -2.5px;
+    right: -2.5px;
+}
+
+.image-cropper .border-left-top {
+    top: -1px;
+    width: 2.5px;
+    height: 30rpx;
+    left: -2.5px;
+}
+
+.image-cropper .border-left-bottom {
+    width: 2.5px;
+    height: 30rpx;
+    left: -2.5px;
+    bottom: -1px;
+}
