@@ -101,6 +101,7 @@
 | imgReset      |无	          |   无    |重置图片的角度、缩放、位置(可以在onloadImage回调里使用)|否|
 
 Demo地址：https://github.com/wx-plugin/image-cropper-demo
+
 [点击导入代码片段](https://developers.weixin.qq.com/s/dIQvo5mr7cpm)
 
 如果有什么好的建议欢迎提issues或者提pr
