@@ -102,7 +102,7 @@
 
 Demo地址：https://github.com/wx-plugin/image-cropper-demo
 
-[点击导入代码片段](https://developers.weixin.qq.com/s/soTgH5my7Gp2)
+[点击导入代码片段](https://developers.weixin.qq.com/s/Z1VsB9mG7Cpm)
 
 如果有什么好的建议欢迎提issues或者提pr
 
