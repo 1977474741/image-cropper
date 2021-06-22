@@ -501,7 +501,7 @@ Component({
                 setTimeout(() => {
                     this.triggerEvent('imageload', this.data.imageObject);
 
-                }, 1000)
+                })
             },
             /**
              * 设置图片放大缩小
